@@ -1,6 +1,7 @@
 "use client";
 import { Button, Layout, Space } from "antd";
-import { LoginOutlined } from "@ant-design/icons";
+import { SignIn, SignOut } from "@icons";
+import { icons } from "antd/es/image/PreviewGroup";
 const { Header } = Layout;
 
 export function Nav() {
@@ -14,15 +15,19 @@ export function Nav() {
             <a href="/">blogs</a>
             <a href="/">About</a>
           </div>
-          <div className="actions space-x-2">
+          <div className="actions space-x-2 flex">
             <Button
               type="default"
-              icon={<LoginOutlined />}
-              className="text-white bg-transparent"
+              icon={<SignIn className="w-6 h-6" />}
+              className="text-white bg-transparent h-auto flex items-end"
             >
-              Login
+              Sign In
             </Button>
-            <Button type="default" className="text-white bg-transparent">
+            <Button
+              type="default"
+              icon={<SignOut className="w-6 h-6" />}
+              className="text-white bg-transparent h-auto flex items-end"
+            >
               Sign up
             </Button>
           </div>
