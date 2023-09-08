@@ -1,10 +1,14 @@
 "use client";
-import Link from "next/link";
 import { Button, Layout } from "antd";
-import { SignIn, SignOut } from "@icons";
+import { SignIn } from "@icons";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+
 const { Header } = Layout;
 
 export function Nav() {
+  const path = usePathname();
+  if (path === "/login") return;
   return (
     <Layout>
       <Header>
@@ -16,20 +20,15 @@ export function Nav() {
             <Link href="/about">About</Link>
           </div>
           <div className="actions space-x-2 flex">
-            <Button
-              type="default"
-              icon={<SignIn className="w-6 h-6" />}
-              className="text-white bg-transparent h-auto flex items-end"
-            >
-              Sign In
-            </Button>
-            <Button
-              type="default"
-              icon={<SignOut className="w-6 h-6" />}
-              className="text-white bg-transparent h-auto flex items-end"
-            >
-              Sign up
-            </Button>
+            <Link href="/login">
+              <Button
+                type="default"
+                icon={<SignIn className="w-6 h-6" />}
+                className="text-white bg-transparent h-auto flex items-end"
+              >
+                Signin | Signup
+              </Button>
+            </Link>
           </div>
         </nav>
       </Header>
