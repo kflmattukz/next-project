@@ -1,8 +1,8 @@
 import { login } from "@/api/reqres";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { notification } from "antd";
 
-export function useLogin() {
+function useLogin() {
   const fetchLogin = useMutation({
     mutationKey: ["login"],
     mutationFn: login,
@@ -19,7 +19,11 @@ export function useLogin() {
   };
 
   return {
-    fetchLogin,
+    loginLoading: fetchLogin.isLoading,
+    loginSuccess: fetchLogin.isSuccess,
+    loginData: fetchLogin.data,
     onLogin,
   };
 }
+
+export default useLogin;

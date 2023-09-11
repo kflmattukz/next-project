@@ -1,6 +1,8 @@
+import "antd/dist/reset.css";
 import "./globals.css";
 import { Nav } from "@/components/Nav";
-import Providers from "@/utils/provider";
+import ReactQueryProviders from "@/utils/reactqueryprovider";
+// import AntdProviders from "@/utils/antdprovider";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -16,10 +18,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Providers>
+        <ReactQueryProviders>
+          {/* <AntdProviders> */}
           <Nav />
           {children}
-        </Providers>
+          {/* </AntdProviders> */}
+        </ReactQueryProviders>
       </body>
     </html>
   );

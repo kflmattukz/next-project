@@ -1,7 +1,17 @@
 import axios from "axios";
 
 const PATH_URL = "https://reqres.in/api/";
-export const reqresApi = axios.create({
+const reqresApi = axios.create({
   baseURL: PATH_URL,
-  timeout: 1000,
 });
+
+reqresApi.interceptors.request.use(
+  (config) => Promise.resolve(config),
+  (err) => Promise.reject(err)
+);
+reqresApi.interceptors.response.use(
+  (data: any) => Promise.resolve(data),
+  (err: any) => Promise.reject(err)
+);
+
+export default reqresApi;

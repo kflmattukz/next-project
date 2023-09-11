@@ -1,6 +1,14 @@
-import { reqresApi } from "./axiosInstance";
+import reqresApi from "./axiosInstance";
 
-export async function register(data: { email: string; password: string }) {
+type RegisterLoginProps = {
+  firstname: string;
+  lastname: string;
+  username: string;
+  email: string;
+  password: string;
+};
+
+export async function register(data: RegisterLoginProps) {
   const res = await reqresApi.post("api/register", { ...data });
   if (res) {
     return res.data;
