@@ -15,46 +15,33 @@ import { useForm } from "antd/es/form/Form";
 import useLogin from "@/hooks/useLogin";
 import useSignup from "@/hooks/useSignup";
 import { useEffect, useState } from "react";
-
-type LoginFieldType = {
-  username: string;
-  password: string;
-};
-
-type SignupFieldType = {
-  firstname: string;
-  lastname: string;
-  username: string;
-  email: string;
-  password: string;
-};
+import { LoginProps, RegisterProps } from "@/constant/interface";
 
 const { Title } = Typography;
 
-export default function Page() {
+function Page() {
   const [form] = useForm();
   const [formType, setFormType] = useState<"login" | "signup">("login");
   const { loginData, loginLoading, loginSuccess, onLogin } = useLogin();
   const { mutationSignup, onSignup } = useSignup();
+  // const [signupHooks, signupSubmit] = useSignup();
 
   const {
     isLoading: signupIsLoading,
     isSuccess: signupIsSuccess,
-    isError: signupIsError,
     data: signupData,
   } = mutationSignup;
 
-  function handleSubmit(value: LoginFieldType | SignupFieldType) {
+  function handleSubmit(value: LoginProps | RegisterProps) {
     if (formType === "login") {
-      onLogin(value.username, value.password);
+      onLogin(value.username!, value.password);
     } else {
-      onSignup(value as SignupFieldType);
+      onSignup(value as RegisterProps);
+      // signupSubmit(value as RegisterProps);
     }
   }
 
   function handleLoginFailed(value: any) {
-    console.log(value.errorFields);
-
     notification.error({
       message: "Login failed",
       description: value.errorFields[0].errors[0],
@@ -96,7 +83,7 @@ export default function Page() {
         </Row>
         <Row gutter={[10, 5]}>
           <Col span={24}>
-            <Form.Item<LoginFieldType>
+            <Form.Item<LoginProps>
               name="username"
               label="Username/Email"
               rules={[
@@ -118,7 +105,7 @@ export default function Page() {
             </Form.Item>
           </Col>
           <Col span={24}>
-            <Form.Item<LoginFieldType>
+            <Form.Item<LoginProps>
               name="password"
               label="Password"
               rules={[
@@ -144,7 +131,7 @@ export default function Page() {
                 </Button>
               </Form.Item>
               <Typography.Text>
-                din&apos;t have account yet, Signup{" "}
+                Don&apos;t have account yet, Signup{" "}
                 <Typography.Link onClick={() => setFormType("signup")}>
                   here
                 </Typography.Link>
@@ -178,7 +165,7 @@ export default function Page() {
         </Row>
         <Row gutter={[10, 5]}>
           <Col span={24}>
-            <Form.Item<SignupFieldType>
+            <Form.Item<RegisterProps>
               name="firstname"
               label="First name"
               rules={[
@@ -200,7 +187,7 @@ export default function Page() {
             </Form.Item>
           </Col>
           <Col span={24}>
-            <Form.Item<SignupFieldType>
+            <Form.Item<RegisterProps>
               name="lastname"
               label="Last name"
               rules={[
@@ -222,7 +209,7 @@ export default function Page() {
             </Form.Item>
           </Col>
           <Col span={24}>
-            <Form.Item<SignupFieldType>
+            <Form.Item<RegisterProps>
               name="username"
               label="Username/Email"
               rules={[
@@ -244,7 +231,7 @@ export default function Page() {
             </Form.Item>
           </Col>
           <Col span={24}>
-            <Form.Item<SignupFieldType>
+            <Form.Item<RegisterProps>
               name="password"
               label="Password"
               rules={[
@@ -290,3 +277,5 @@ export default function Page() {
     </Layout>
   );
 }
+
+export default Page;

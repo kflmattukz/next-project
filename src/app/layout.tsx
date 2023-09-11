@@ -2,8 +2,9 @@ import "antd/dist/reset.css";
 import "./globals.css";
 import { Nav } from "@/components/Nav";
 import ReactQueryProviders from "@/utils/reactqueryprovider";
-// import AntdProviders from "@/utils/antdprovider";
+import AntdProviders from "@/utils/antdprovider";
 import type { Metadata } from "next";
+import themeConfig from "@/constant/theme";
 
 export const metadata: Metadata = {
   title: "Next project",
@@ -19,10 +20,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ReactQueryProviders>
-          {/* <AntdProviders> */}
-          <Nav />
-          {children}
-          {/* </AntdProviders> */}
+          <AntdProviders theme={themeConfig}>
+            <Nav />
+            {children}
+          </AntdProviders>
         </ReactQueryProviders>
       </body>
     </html>

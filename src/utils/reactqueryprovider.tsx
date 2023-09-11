@@ -11,7 +11,11 @@ function ReactQueryProviders({ children }: React.PropsWithChildren) {
   return (
     <QueryClientProvider client={client}>
       <ReactQueryStreamedHydration>{children}</ReactQueryStreamedHydration>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {process.env.NODE_ENV === "development" ? (
+        <ReactQueryDevtools initialIsOpen={false} />
+      ) : (
+        ""
+      )}
     </QueryClientProvider>
   );
 }

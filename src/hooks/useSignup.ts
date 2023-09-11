@@ -1,4 +1,5 @@
 import { register } from "@/api/reqres";
+import { RegisterProps } from "@/constant/interface";
 import { useMutation } from "@tanstack/react-query";
 import { notification } from "antd";
 
@@ -22,11 +23,12 @@ function useSignup() {
     },
   });
 
-  const onSignup = (formData: RegisterLoginProps) => {
+  const onSignup = (formData: RegisterProps) => {
     mutationSignup.mutateAsync(formData);
   };
 
   return { mutationSignup, onSignup };
+  // return [mutationSignup, onSignup]
 }
 
 export default useSignup;

@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const PATH_URL = "https://reqres.in/api/";
+//"https://reqres.in/api/"
+const PATH_URL = process.env.NEXT_PUBLIC_API_REQRES_BASE_URL;
 const reqresApi = axios.create({
   baseURL: PATH_URL,
 });

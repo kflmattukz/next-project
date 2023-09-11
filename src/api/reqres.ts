@@ -1,14 +1,7 @@
+import { LoginProps, RegisterProps } from "@/constant/interface";
 import reqresApi from "./axiosInstance";
 
-type RegisterLoginProps = {
-  firstname: string;
-  lastname: string;
-  username: string;
-  email: string;
-  password: string;
-};
-
-export async function register(data: RegisterLoginProps) {
+export async function register(data: RegisterProps) {
   const res = await reqresApi.post("api/register", { ...data });
   if (res) {
     return res.data;
@@ -17,7 +10,7 @@ export async function register(data: RegisterLoginProps) {
   return new Error("Something went wrong !, please try again later...");
 }
 
-export async function login(data: { email: string; password: string }) {
+export async function login(data: LoginProps) {
   const res = await reqresApi.post("api/login", { ...data });
   if (res) {
     return res.data;
