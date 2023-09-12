@@ -21,8 +21,10 @@ export default function RootLayout({
       <body>
         <ReactQueryProviders>
           <AntdProviders theme={themeConfig}>
-            <Nav />
-            {children}
+            <div className="w-screen">
+              <Nav />
+              {children}
+            </div>
           </AntdProviders>
         </ReactQueryProviders>
       </body>

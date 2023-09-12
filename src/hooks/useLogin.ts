@@ -2,8 +2,10 @@ import { login } from "@/api/reqres";
 import { useMutation } from "@tanstack/react-query";
 import { notification } from "antd";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 function useLogin() {
+  const router = useRouter();
   const fetchLogin = useMutation({
     mutationKey: ["login"],
     mutationFn: login,
@@ -13,6 +15,8 @@ function useLogin() {
         message: "Login Success",
         placement: "topRight",
       });
+
+      router.replace("/");
     },
   });
 

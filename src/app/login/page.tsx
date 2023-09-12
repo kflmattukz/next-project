@@ -16,15 +16,23 @@ import useLogin from "@/hooks/useLogin";
 import useSignup from "@/hooks/useSignup";
 import { useEffect, useState } from "react";
 import { LoginProps, RegisterProps } from "@/constant/interface";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 const { Title } = Typography;
 
 function Page() {
+  const user = Cookies.get("User") || undefined;
+  const router = useRouter();
   const [form] = useForm();
   const [formType, setFormType] = useState<"login" | "signup">("login");
   const { loginData, loginLoading, loginSuccess, onLogin } = useLogin();
   const { mutationSignup, onSignup } = useSignup();
   // const [signupHooks, signupSubmit] = useSignup();
+
+  if (user) {
+    router.replace("/");
+  }
 
   const {
     isLoading: signupIsLoading,

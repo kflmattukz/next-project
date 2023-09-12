@@ -14,17 +14,23 @@ function privateRoute(route: string, routes: string[]): boolean {
 }
 
 function WithPrivateRoute(WrappedComponent: any) {
-  const user = Cookies.get("User") || undefined;
-  const path = usePathname();
-  const router = useRouter();
-  if (user && authRoute(path, AUTH_PATH)) {
-    router.push("/");
-  }
+  // const user = Cookies.get("User") || undefined;
+  // const path = usePathname();
+  // const router = useRouter();
+  // if (user && authRoute(path, AUTH_PATH)) {
+  //   router.push("/");
+  // }
 
-  if (!user && privateRoute(path, PROTECTED_PATH)) {
-    router.push("/login");
-  }
-  return <WrappedComponent />;
+  const user = "helo";
+
+  // if (!user && privateRoute(path, PROTECTED_PATH)) {
+  //   router.push("/login");
+  // }
+  const ComponentWithRoute = (props: any) => {
+    return <WrappedComponent {...props} />;
+  };
+
+  return ComponentWithRoute(user);
 }
 
 export default WithPrivateRoute;

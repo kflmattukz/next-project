@@ -18,3 +18,14 @@ export async function login(data: LoginProps) {
 
   return new Error("Sometime went wrong !, please try again later...");
 }
+
+export async function fetchUser() {
+  try {
+    const res = await reqresApi.get("users?delay=2");
+    if (res.status === 200) {
+      return res.data.data;
+    }
+  } catch (error) {
+    return new Error("Sometime went wrong !, please try again later...");
+  }
+}
