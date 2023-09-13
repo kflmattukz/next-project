@@ -1,6 +1,6 @@
 import "antd/dist/reset.css";
 import "./globals.css";
-import { Nav } from "@/components/Nav";
+import Nav from "@/components/Nav";
 import ReactQueryProviders from "@/utils/reactqueryprovider";
 import AntdProviders from "@/utils/antdprovider";
 import type { Metadata } from "next";

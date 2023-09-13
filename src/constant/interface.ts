@@ -17,9 +17,9 @@ export interface User {
 }
 
 export interface ListUser {
-  avatar: "https://reqres.in/img/faces/1-image.jpg";
-  email: "george.bluth@reqres.in";
-  first_name: "George";
-  id: 1;
-  last_name: "Bluth";
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  avatar: string;
 }

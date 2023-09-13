@@ -1,8 +1,8 @@
 import { login } from "@/api/reqres";
 import { useMutation } from "@tanstack/react-query";
 import { notification } from "antd";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
 function useLogin() {
   const router = useRouter();
@@ -10,13 +10,13 @@ function useLogin() {
     mutationKey: ["login"],
     mutationFn: login,
     onSuccess: (user) => {
-      Cookies.set("User", JSON.stringify(user));
+      Cookies.set("User", JSON.stringify(user), { secure: true });
       notification.success({
         message: "Login Success",
         placement: "topRight",
       });
 
-      router.replace("/");
+      return router.push("/");
     },
   });
 

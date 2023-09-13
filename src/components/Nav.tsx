@@ -1,26 +1,34 @@
 "use client";
-
 import { Button, Layout } from "antd";
 import { SignIn, SignOut } from "@icons";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import type { User } from "@/constant/interface";
+import { useEffect, useState } from "react";
 
 const { Header } = Layout;
 
-export function Nav() {
+export default function Nav() {
+  const [user, setUser] = useState<User | undefined>(undefined);
   const path = usePathname();
   const router = useRouter();
-  const user: User | undefined =
-    JSON.parse(Cookies.get("User") || JSON.stringify("")) || undefined;
 
   function handleLogout() {
     Cookies.remove("User");
-    return router.push("/");
+    setUser(undefined);
+    router.push("/");
+    return router.refresh();
   }
 
-  if (path === "/login") return;
+  useEffect(() => {
+    if (!user) {
+      setUser(JSON.parse(Cookies.get("User") || JSON.stringify("")));
+    }
+  }, [user]);
+
+  if (path === "/login") return <></>;
+
   return (
     <Layout>
       <Header>

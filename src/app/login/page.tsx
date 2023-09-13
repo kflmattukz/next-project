@@ -21,7 +21,7 @@ import { useRouter } from "next/navigation";
 
 const { Title } = Typography;
 
-function Page() {
+export default function Login() {
   const user = Cookies.get("User") || undefined;
   const router = useRouter();
   const [form] = useForm();
@@ -29,10 +29,11 @@ function Page() {
   const { loginData, loginLoading, loginSuccess, onLogin } = useLogin();
   const { mutationSignup, onSignup } = useSignup();
   // const [signupHooks, signupSubmit] = useSignup();
-
-  if (user) {
-    router.replace("/");
-  }
+  useEffect(() => {
+    if (user) {
+      return router.push("/");
+    }
+  }, [user, router]);
 
   const {
     isLoading: signupIsLoading,
@@ -285,5 +286,3 @@ function Page() {
     </Layout>
   );
 }
-
-export default Page;
