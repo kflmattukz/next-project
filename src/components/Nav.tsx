@@ -4,30 +4,28 @@ import { SignIn, SignOut } from "@icons";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import Cookies from "js-cookie";
-import type { User } from "@/constant/interface";
 import { useEffect, useState } from "react";
+import useGetUserLogin from "@/hooks/useGetUserLogin";
 
 const { Header } = Layout;
 
 export default function Nav() {
-  const [user, setUser] = useState<User | undefined>(undefined);
-  const path = usePathname();
+  const { user, setUser } = useGetUserLogin();
+  // const [user, setUser] = useState<User | undefined>(undefined);
   const router = useRouter();
-
-  function handleLogout() {
-    Cookies.remove("User");
-    setUser(undefined);
-    router.push("/");
-    return router.refresh();
-  }
 
   useEffect(() => {
     if (!user) {
       setUser(JSON.parse(Cookies.get("User") || JSON.stringify("")));
     }
-  }, [user]);
+  }, [user, setUser]);
 
-  if (path === "/login") return <></>;
+  function handleLogout() {
+    Cookies.remove("User");
+    setUser(undefined);
+    router.push("/");
+    router.refresh();
+  }
 
   return (
     <Layout>
@@ -40,7 +38,17 @@ export default function Nav() {
             <Link href="/about">About</Link>
           </div>
           <div className="actions space-x-2 flex">
-            {user ? (
+            {!user ? (
+              <Link href="/login">
+                <Button
+                  type="default"
+                  icon={<SignIn className="w-6 h-6" />}
+                  className="text-white bg-transparent h-auto flex items-end"
+                >
+                  Signin | Signup
+                </Button>
+              </Link>
+            ) : (
               <>
                 <Link href="/dashboard">
                   <Button
@@ -60,16 +68,6 @@ export default function Nav() {
                   Logout
                 </Button>
               </>
-            ) : (
-              <Link href="/login">
-                <Button
-                  type="default"
-                  icon={<SignIn className="w-6 h-6" />}
-                  className="text-white bg-transparent h-auto flex items-end"
-                >
-                  Signin | Signup
-                </Button>
-              </Link>
             )}
           </div>
         </nav>

@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export default function useGetList(enabled: boolean = true) {
   const fetchList = useQuery({
-    queryKey: ["fetch list"],
+    queryKey: ["fetchlist"],
     queryFn: fetchUser,
     enabled,
   });

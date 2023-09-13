@@ -29,3 +29,14 @@ export async function fetchUser() {
     return new Error("Sometime went wrong !, please try again later...");
   }
 }
+
+export async function mutationAddUser(data: any) {
+  try {
+    const res = await reqresApi.post("users", { ...data });
+    if (res.status === 201) {
+      return res.data;
+    }
+  } catch (err) {
+    return new Error("Sometime went wrong !, please try again later...");
+  }
+}
