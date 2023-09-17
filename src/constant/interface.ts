@@ -11,8 +11,8 @@ export interface RegisterProps extends LoginProps {
 
 export interface User {
   email: string;
-  password: string;
-  id: number | string;
+  password?: string;
+  id: number | undefined;
   createdAt: Date | string;
 }
 
@@ -22,4 +22,5 @@ export interface ListUser {
   last_name: string;
   email: string;
   avatar: string;
+  color?: string;
 }

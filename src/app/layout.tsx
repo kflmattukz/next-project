@@ -1,10 +1,10 @@
 import "antd/dist/reset.css";
 import "./globals.css";
-import Nav from "@/components/Nav";
 import ReactQueryProviders from "@/utils/reactqueryprovider";
 import AntdProviders from "@/utils/antdprovider";
 import type { Metadata } from "next";
 import themeConfig from "@/constant/theme";
+import { UserContextProvider } from "@/context/user";
 
 export const metadata: Metadata = {
   title: "Next project",
@@ -21,7 +21,9 @@ export default function RootLayout({
       <body>
         <ReactQueryProviders>
           <AntdProviders theme={themeConfig}>
-            <div className="w-screen">{children}</div>
+            <UserContextProvider>
+              <div className="w-screen">{children}</div>
+            </UserContextProvider>
           </AntdProviders>
         </ReactQueryProviders>
       </body>
