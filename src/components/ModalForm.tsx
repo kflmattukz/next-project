@@ -7,6 +7,7 @@ interface ModalFormProps {
   isSubmitLoasing: boolean;
   children: React.ReactNode;
   handleCancel: (bool: boolean) => void;
+  handleSubmit: () => void;
 }
 
 export default function ModalForm({
@@ -15,6 +16,7 @@ export default function ModalForm({
   isSubmitLoasing,
   handleCancel,
   children,
+  handleSubmit,
 }: ModalFormProps) {
   return (
     <Modal
@@ -22,6 +24,7 @@ export default function ModalForm({
         <>
           <Button onClick={() => handleCancel(false)}>Cancel</Button>
           <Button
+            onClick={handleSubmit}
             htmlType="submit"
             className="bg-green-500 text-white border-none hover:text-gray-600"
             style={{ color: "white" }}

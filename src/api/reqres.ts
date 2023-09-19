@@ -56,8 +56,8 @@ export async function mutationRemoveUser(id: string) {
 export async function mutationEditUser(data: any) {
   try {
     const res = await reqresApi.patch(`users/${data.id}?delay=1`, { ...data });
-    if (res.status === 204) {
-      return res.data;
+    if (res) {
+      return res.data.data;
     } else {
       return notification.error({
         message:

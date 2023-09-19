@@ -14,8 +14,8 @@ export default function useRemoveUser() {
     },
   });
 
-  const onRemoveUser = (id: number) => {
-    mutateRemoveUser.mutateAsync(String(id));
+  const onRemoveUser = async (id: number) => {
+    await mutateRemoveUser.mutateAsync(String(id));
   };
 
   return {

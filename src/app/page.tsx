@@ -3,12 +3,10 @@
 import Nav from "@/components/Nav";
 import { ListUser, User } from "@/constant/interface";
 import { useUserContext } from "@/context/user";
-import useEditUser from "@/hooks/useEditUser";
 import useGetList from "@/hooks/useGetList";
-import useRemoveUser from "@/hooks/useRemoveUser";
 import withPrivateRoute from "@/utils/withprivateroute";
-import { Button, Col, Divider, Layout, Modal, Row } from "antd";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Button, Col, Divider, Layout, Row } from "antd";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ModalUser from "./ModalUser";
 import CardList from "./CardList";
 import type { ModalUserProps } from "./ModalUser";
@@ -18,6 +16,7 @@ const { Content } = Layout;
 function Home() {
   const { user } = useUserContext();
   const refModalUser = useRef<ModalUserProps | null>(null);
+  let [userEdit, setUserEdit] = useState<ListUser | undefined>(undefined);
   const [userLogin, setUserLogin] = useState<User | undefined>(undefined);
   const { getListData, getListIsError, getListIsLoading, getListSuccess } =
     useGetList(user ? true : false);
@@ -25,41 +24,47 @@ function Home() {
   const [listUser, setListUser] = useState(getListData);
 
   const memoListUser = useMemo(() => listUser || [], [listUser]);
-  const { mutateRemoveUser, onRemoveUser } = useRemoveUser();
-  const { mutateEditUser, onEditUser } = useEditUser();
 
-  const {
-    isLoading: isRemoveUserLoading,
-    isSuccess: isRemoveUserSuccess,
-    isError: isRevemoUserError,
-    data: removeUserData,
-  } = mutateRemoveUser;
+  const handleAddList = useCallback((data: ListUser) => {
+    setListUser((prevData: ListUser[]) => [data, ...prevData]);
+  }, []);
 
-  const {
-    isLoading: isUpdateUserLoading,
-    isSuccess: isUpdateUserSuccess,
-    isError: isUpdateUserError,
-    data: updateUserData,
-  } = mutateEditUser;
+  const handleUpdateList = useCallback((id: number, data: ListUser) => {
+    setListUser((prevData: ListUser[]) =>
+      prevData.map((user: ListUser) => {
+        if (id === user.id) {
+          return {
+            ...user,
+            id: id,
+            first_name: data.first_name,
+            last_name: data.last_name,
+            email: data.email,
+            color: data.color,
+          };
+        }
+        return user;
+      })
+    );
+  }, []);
 
-  const handleRemoveUser = (id: number) => {
-    return Modal.confirm({
-      content: `Apakah anda yakin akan menhapus user dengan id: ${id}`,
-      okButtonProps: {
-        type: "text",
-        className: "bg-red-600 text-white font-semibold hover:text-white",
-        style: { color: "white", backgroundColor: "#F00" },
-      },
-      okText: `Hapus user ${id}`,
-      onOk: async () => {
-        onRemoveUser(id);
-        console.log(removeUserData);
-        setListUser((users: any) =>
-          users.filter((user: any) => user.id !== id)
-        );
-      },
-    });
-  };
+  const handleRemoveUserById = useCallback((id: number) => {
+    setListUser((prevData: ListUser[]) =>
+      prevData.filter((user: ListUser) => user.id !== id)
+    );
+  }, []);
+
+  const handleUpdateUser = useCallback(
+    (id: number) => {
+      const edit = listUser.filter((user: ListUser) => user.id === id)[0];
+      setUserEdit(edit);
+      refModalUser.current?.onModalOpen(true);
+    },
+    [listUser]
+  );
+
+  const handleCancelEdit = useCallback(() => {
+    setUserEdit(undefined);
+  }, []);
 
   useEffect(() => {
     if (getListSuccess) {
@@ -99,11 +104,25 @@ function Home() {
             <h2>Loading....</h2>
           ) : (
             memoListUser?.map((item: ListUser, idx: number) => {
-              return <CardList item={item} key={`${item.id}-${idx}`} />;
+              return (
+                <CardList
+                  item={item}
+                  key={`${item.id}-${idx}`}
+                  removeUserById={handleRemoveUserById}
+                  openModalEdit={handleUpdateUser}
+                />
+              );
             })
           )}
         </Row>
-        <ModalUser ref={refModalUser} title="Hello this is title" />
+        <ModalUser
+          ref={refModalUser}
+          title={userEdit ? "Update List User" : "Add List User"}
+          addUserList={handleAddList}
+          updateUserList={handleUpdateList}
+          isEdit={userEdit}
+          handleCancelEdit={handleCancelEdit}
+        />
       </Content>
     </>
   );
