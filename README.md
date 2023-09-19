@@ -40,3 +40,10 @@ pnpm dev
 #### Icon set
 
 [Xnix Circular Interface Icons Collection](https://www.svgrepo.com/collection/xnix-circular-interface-icons)
+
+#### Login
+
+```
+username: just input any email
+password: just input any password
+```
