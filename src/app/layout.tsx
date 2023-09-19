@@ -21,9 +21,7 @@ export default function RootLayout({
       <body>
         <ReactQueryProviders>
           <AntdProviders theme={themeConfig}>
-            <UserContextProvider>
-              <div className="w-screen">{children}</div>
-            </UserContextProvider>
+            <UserContextProvider>{children}</UserContextProvider>
           </AntdProviders>
         </ReactQueryProviders>
       </body>

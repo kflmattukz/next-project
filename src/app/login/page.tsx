@@ -16,24 +16,15 @@ import useLogin from "@/hooks/useLogin";
 import useSignup from "@/hooks/useSignup";
 import { useEffect, useState } from "react";
 import { LoginProps, RegisterProps } from "@/constant/interface";
-import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
+import withPrivateRoute from "@/utils/withprivateroute";
 
 const { Title } = Typography;
 
-export default function Login() {
-  const user = Cookies.get("User") || undefined;
-  const router = useRouter();
+const Login = () => {
   const [form] = useForm();
   const [formType, setFormType] = useState<"login" | "signup">("login");
   const { loginData, loginLoading, loginSuccess, onLogin } = useLogin();
   const { mutationSignup, onSignup } = useSignup();
-  // const [signupHooks, signupSubmit] = useSignup();
-  useEffect(() => {
-    if (user) {
-      return router.push("/");
-    }
-  }, [user, router]);
 
   const {
     isLoading: signupIsLoading,
@@ -285,4 +276,6 @@ export default function Login() {
       </Content>
     </Layout>
   );
-}
+};
+
+export default withPrivateRoute(Login);
